@@ -3,7 +3,7 @@
 const os = require('os');
 
 module.exports = Object.freeze({
-  numWorkers: Object.keys(os.cpus()).length,
+  numWorkers: 2,
   worker: {
     logLevel: 'debug',
     logTags: [
@@ -12,7 +12,7 @@ module.exports = Object.freeze({
       'rtcp',
     ],
     rtcMinPort: 40000,
-    rtcMaxPort: 49999
+    rtcMaxPort: 40005
   },
   router: {
     mediaCodecs: [
@@ -30,7 +30,7 @@ module.exports = Object.freeze({
     ]
   },
   webRtcTransport: {
-    listenIps: [ { ip: '192.168.60.99', announcedIp: undefined } ],
+    listenIps: [ { ip: '100.98.137.125', announcedIp: undefined } ],
     enableUdp: true,
     enableTcp: true,
     preferUdp: true,

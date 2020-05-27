@@ -11,14 +11,14 @@ const GSTREAMER_COMMAND = 'gst-launch-1.0';
 const GSTREAMER_OPTIONS = '-v -e';
 
 module.exports = class GStreamer {
-  constructor (rtpParameters) {
+  constructor(rtpParameters) {
     this._rtpParameters = rtpParameters;
     this._process = undefined;
     this._observer = new EventEmitter();
     this._createProcess();
   }
 
-  _createProcess () {
+  _createProcess() {
     // Use the commented out exe to create gstreamer dot file
     // const exe = `GST_DEBUG=${GSTREAMER_DEBUG_LEVEL} GST_DEBUG_DUMP_DOT_DIR=./dump ${GSTREAMER_COMMAND} ${GSTREAMER_OPTIONS}`;
     const exe = `GST_DEBUG=${GSTREAMER_DEBUG_LEVEL} ${GSTREAMER_COMMAND} ${GSTREAMER_OPTIONS}`;
@@ -57,13 +57,13 @@ module.exports = class GStreamer {
     );
   }
 
-  kill () {
+  kill() {
     console.log('kill() [pid:%d]', this._process.pid);
     this._process.kill('SIGINT');
   }
 
   // Build the gstreamer child process args
-  get _commandArgs () {
+  get _commandArgs() {
     let commandArgs = [
       `rtpbin name=rtpbin latency=50 buffer-mode=0 sdes="application/x-rtp-source-sdes, cname=(string)${this._rtpParameters.video.rtpParameters.rtcp.cname}"`,
       '!'
@@ -77,7 +77,7 @@ module.exports = class GStreamer {
     return commandArgs;
   }
 
-  get _videoArgs () {
+  get _videoArgs() {
     const { video } = this._rtpParameters;
     const VIDEO_CAPS = `application/x-rtp,media=(string)video,clock-rate=(int)90000,payload=(int)101,encoding-name=(string)VP8,ssrc=(uint)${video.rtpParameters.encodings[0].ssrc}`;
 
@@ -115,7 +115,7 @@ module.exports = class GStreamer {
     ];
   }
 
-  get _rtcpArgs () {
+  get _rtcpArgs() {
     const { video, audio } = this._rtpParameters;
 
     return [
@@ -132,7 +132,7 @@ module.exports = class GStreamer {
     ];
   }
 
-  get _sinkArgs () {
+  get _sinkArgs() {
     return [
       'webmmux name=mux',
       '!',
